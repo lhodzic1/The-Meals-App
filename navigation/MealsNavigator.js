@@ -9,8 +9,16 @@ import { createMaterialBottomTabNavigator } from 'react-navigation-material-bott
 import CategoriesScreen from '../screens/CategoriesScreen';
 import CategoryMealsScreen from '../screens/CategoryMealsScreen';
 import MealDetailsScreen from '../screens/MealDetailsScreen';
-import FavoritesScreen from '../screens/FavouritesScreen';
+import FavoritesScreen from '../screens/FavoritesScreen';
 import Colors from '../constants/Colors';
+
+const defaultStackNavOptions = {
+    headerStyle: {
+        backgroundColor: Platform.OS === "android" ? Colors.primaryColor : ' '
+    },
+    headerTintColor: Platform.OS === "android" ? 'white' : Colors.primaryColor
+
+};
 
 const MealsNavigator = createStackNavigator({
     Categories: {
@@ -22,13 +30,17 @@ const MealsNavigator = createStackNavigator({
     CategoryMeals: CategoryMealsScreen,
     MealDetails: MealDetailsScreen
 }, {
-    defaultNavigationOptions: {
-        headerStyle: {
-            backgroundColor: Platform.OS === "android" ? Colors.primaryColor : ' '
-        },
-        headerTintColor: Platform.OS === "android" ? 'white' : Colors.primaryColor
-    }
+    defaultNavigationOptions: defaultStackNavOptions
 });
+
+
+const FavNavigator = createStackNavigator({
+    Favorites: FavoritesScreen,
+    MealDetails: MealDetailsScreen
+}, {
+    defaultNavigationOptions: defaultStackNavOptions
+});
+
 
 const tabScreenConfig = {
     Meals: {
@@ -45,7 +57,7 @@ const tabScreenConfig = {
         }
     },
     Favorites: {
-        screen: FavoritesScreen,
+        screen: FavNavigator,
         navigationOptions: {
             tabBarIcon: (tabInfo) => {
                 return <Ionicons
